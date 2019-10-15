@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// Basics
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import './components/styles/app.css';
+
+// Components
+
+import Home from './components/screens/Home';
+import NotFound from './components/screens/NotFound';
+import Profile from './components/screens/Profile';
+import Settings from './components/screens/Settings';
+import Login from './components/screens/auth/Login';
+import Signup from './components/screens/auth/Signup';
+
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/settings" component={Settings} />
+      <Route component={NotFound} />
+    </Switch>
   );
 }
 
