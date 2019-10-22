@@ -44,7 +44,7 @@ class MainProvider extends Component {
     },
     search: "",
     nav: 0,
-    url: "http://192.168.43.191:5001/",
+    url: "http://localhost:5001/",
     fetched: {
       allTweets: [],
       searchedUsers: [],
