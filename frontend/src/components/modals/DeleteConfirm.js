@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "./Modal";
 import styled from "styled-components";
+import { MainContext } from '../../Context';
 
 const Container = styled.div`
   display: ${props => (props.show ? "flex" : "none")};
@@ -11,11 +12,14 @@ const Container = styled.div`
 `;
 
 const DeleteConfirm = props => {
+
+  const myContext = React.useContext(MainContext);
+
   return (
-    <Modal title="Deleting account..." show={props.show} exit={props.exit}>
+    <Modal title="Deleting account..." show={props.show} exit={props.exit} ok={myContext.dataMethods.deleteUser}>
       <Container show={props.show}>
         Do you want to delete this account <br />
-        and all of its data??
+        this won't delete your posts
       </Container>
     </Modal>
   );

@@ -92,7 +92,14 @@ const Modal = props => {
         <div className="modalContent">{props.children}</div>
         <div className="modalButtons">
           <button onClick={props.exit}>Cancel</button>
-          <button>Ok</button>
+          <button
+            onClick={e => {
+              props.ok(e);
+              props.exit();
+            }}
+          >
+            Ok
+          </button>
         </div>
       </div>
     </Container>

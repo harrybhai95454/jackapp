@@ -59,6 +59,10 @@ const Container = styled.form`
       }
     }
   }
+
+  @media(max-width: 600px) {
+    display: none;
+  }
 `;
 
 const Appbar = props => {

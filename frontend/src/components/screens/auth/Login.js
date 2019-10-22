@@ -1,21 +1,22 @@
 import React from "react";
 import { CardForm, Bigbutton, BrownContainer } from "../../styles/app";
-import { FiUser, FiKey } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { FiUser, FiKey } from "react-icons/fi";
+import { Link, Redirect } from "react-router-dom";
+import { MainContext } from "../../../Context";
 
 const Login = () => {
+  const myContext = React.useContext(MainContext);
 
-
-   const preventing = (e) => {
-      e.preventDefault();
-   }
+  if(myContext.isloggedIn) {
+    return <Redirect to="/" />
+  }
 
   return (
     <>
       <BrownContainer>
-        <CardForm onSubmit={preventing}>
+        <CardForm>
           <div>
-            <label for="username">
+            <label htmlFor="username">
               <FiUser />
               <input
                 type="text"
@@ -24,10 +25,12 @@ const Login = () => {
                 aria-label="username"
                 aria-required="true"
                 placeholder="Username"
+                onChange={myContext.methods.setLogin}
+                value={myContext.login.username}
               />
             </label>
             <br />
-            <label for="password">
+            <label htmlFor="password">
               <FiKey />
               <input
                 type="password"
@@ -36,12 +39,16 @@ const Login = () => {
                 aria-label="password"
                 aria-required="true"
                 placeholder="Password"
+                onChange={myContext.methods.setLogin}
+                value={myContext.login.password}
               />
             </label>
           </div>
-          <Bigbutton type="submit">Login</Bigbutton>
+          <Bigbutton type="submit" onClick={myContext.dataMethods.login}>Login</Bigbutton>
         </CardForm>
-        <span id="sign-text">Just heard out plz <Link to="/signup">Sign Up</Link></span>
+        <span id="sign-text">
+          Just heard out plz <Link to="/signup">Sign Up</Link>
+        </span>
       </BrownContainer>
     </>
   );

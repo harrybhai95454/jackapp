@@ -1,21 +1,22 @@
 import React from "react";
 import { CardForm, Bigbutton, BrownContainer } from "../../styles/app";
-import { FiUserPlus, FiKey } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { FiUserPlus, FiKey } from "react-icons/fi";
+import { Link, Redirect } from "react-router-dom";
+import { MainContext } from "../../../Context";
 
 const Signup = () => {
+  const myContext = React.useContext(MainContext);
 
-
-   const preventing = (e) => {
-      e.preventDefault();
-   }
+  if(myContext.isloggedIn) {
+    return <Redirect to="/" />
+  }
 
   return (
     <>
       <BrownContainer>
-        <CardForm onSubmit={preventing}>
+        <CardForm>
           <div>
-            <label for="username">
+            <label htmlFor="username">
               <FiUserPlus />
               <input
                 type="text"
@@ -24,10 +25,12 @@ const Signup = () => {
                 aria-label="username"
                 aria-required="true"
                 placeholder="Username"
+                onChange={myContext.methods.setLogin}
+                value={myContext.login.username}
               />
             </label>
             <br />
-            <label for="password">
+            <label htmlFor="password">
               <FiKey />
               <input
                 type="password"
@@ -36,12 +39,16 @@ const Signup = () => {
                 aria-label="password"
                 aria-required="true"
                 placeholder="Password"
+                onChange={myContext.methods.setLogin}
+                value={myContext.login.password}
               />
             </label>
           </div>
-          <Bigbutton type="submit">Sign Up</Bigbutton>
+          <Bigbutton type="submit" onClick={myContext.dataMethods.signup}>Sign Up</Bigbutton>
         </CardForm>
-        <span id="sign-text">Already joined <Link to="/login">login</Link></span>
+        <span id="sign-text">
+          Already joined <Link to="/login">login</Link>
+        </span>
       </BrownContainer>
     </>
   );

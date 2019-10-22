@@ -5,7 +5,6 @@ import { MainContext } from "../../Context";
 // Components
 import Nav from "../layout/Nav";
 import ProfilePicture from "../individual/Profile";
-import { FiPlus } from "react-icons/fi";
 
 // Styled Components
 
@@ -24,6 +23,10 @@ const Titlebar = styled.div`
   position: sticky;
   top: 0;
   z-index: 4;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const Subcontainer = styled.div`
@@ -37,6 +40,30 @@ export const Subcontainer = styled.div`
     max-width: 100%;
   }
 
+  .followBtn {
+    display: ${props => (props.currentUser ? "none" : "inline-block")};
+  }
+
+  .saveBtn {
+    display: ${props => (props.currentUser ? "inline-block" : "none")};
+  }
+
+  .followBtn,
+  .saveBtn {
+    transition: 0.2s all;
+    border: none;
+    background: #2393f5;
+    border-radius: 3px;
+    padding: 5px 8px;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background: #1b86e4;
+    }
+  }
+
   .mainContainer {
     width: 100%;
     max-width: 600px;
@@ -44,6 +71,18 @@ export const Subcontainer = styled.div`
 
     @media (max-width: 1180px) {
       max-width: 100%;
+    }
+
+    .logout-container {
+      margin-top: 8px;
+      display: ${props => (props.currentUser ? "block" : "none")};
+      button {
+        background: transparent;
+        color: red;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+      }
     }
 
     .dataContainer {
@@ -100,6 +139,21 @@ export const Subcontainer = styled.div`
           }
         }
 
+        .saveProfileContainer {
+          margin: 1rem 0;
+          display: flex;
+          justify-content: center;
+        }
+
+        .saveProfile {
+          display: ${props => (props.currentUser ? "inline-block" : "none")};
+          cursor: pointer;
+          background: transparent;
+          font-weight: bold;
+          border: none;
+          color: #0088ff;
+        }
+
         .pictureContainer {
           position: relative;
           border-radius: 50%;
@@ -121,13 +175,19 @@ export const Subcontainer = styled.div`
             height: 100%;
             z-index: 2;
             position: absolute;
-            display: flex;
+            display: ${props => (props.currentUser ? "flex" : "none")};
             justify-content: center;
             align-items: flex-end;
             opacity: 0;
             top: 0;
 
-            button {
+            input[type="file"] {
+              display: none;
+            }
+
+            .button {
+              display: inline-block;
+              text-align: center;
               transition: 0.2s all;
               background: #1d7bce;
               padding: 1rem;
@@ -152,104 +212,149 @@ export const Subcontainer = styled.div`
   }
 `;
 
-const Profile = () => {
+const Profile = props => {
   const myContext = React.useContext(MainContext);
+  const [profilePic, setProfilePic] = React.useState(null);
+
+  const saveButton = profilePic ? "Save" : "Saved";
 
   const bioRef = React.useRef(null);
-  const usernameRef = React.useRef(null);
+  const followFunction = myContext.profileData.following
+    ? myContext.dataMethods.unfollow
+    : myContext.dataMethods.follow;
+
+  const followText = myContext.profileData.following ? "Unfollow" : "Follow";
 
   const onChangeContentEditable = () => {
     let bio = bioRef.current;
-    let username = usernameRef.current;
     bio.addEventListener("input", e => {
-      myContext.methods.profileData(e);
-    });
-    username.addEventListener("input", e => {
       myContext.methods.profileData(e);
     });
   };
 
+  const setProfilePicc = (val) => {
+    setProfilePic(val);
+  }
+
   React.useEffect(() => {
+    myContext.dataMethods.fetchProfile(props.match.params.username);
+    localStorage.setItem(
+      "profile_data_jack",
+      JSON.stringify(myContext.profileData)
+    );
     myContext.methods.setNav(2);
     onChangeContentEditable();
-  }, []);
+  }, [myContext.depends]);
 
   return (
-    <Container className="container">
-      <Nav />
-      <Subcontainer>
-        <div className="mainContainer">
-          <Titlebar>Profile</Titlebar>
-          <div className="profileContainer">
-            <div className="baseInfo">
-              <div>
-                <div className="pictureContainer">
-                  <ProfilePicture h="150px" w="150px" />
-                  <div className="changeProfilePic">
-                    <button>
-                      <FiPlus />
+    <>
+      <MobileNav />
+      <Container className="container">
+        <Nav />
+        <Subcontainer currentUser={myContext.profileData.current}>
+          <div className="mainContainer">
+            <Titlebar>Profile</Titlebar>
+            <div className="profileContainer">
+              <div className="baseInfo">
+                <div>
+                  <div className="pictureContainer">
+                    <ProfilePicture h="150px" w="150px" pic={myContext.profileData.picture}  />
+                    <div className="changeProfilePic">
+                      <label className="button" htmlFor="profilePic">
+                        <input type="file" id="profilePic" name="profilePic" accept=".png, .jpg, .jpeg" onChange={e => setProfilePic(e.target.files[0])} />+
+                      </label>
+                    </div>
+                  </div>
+                  <div className="saveProfileContainer">
+                  <button className="saveProfile" onClick={e => myContext.dataMethods.updateProfilePic(profilePic, setProfilePicc, myContext.profileData.username)}>{saveButton}</button>
+                  </div>
+                </div>
+                <div className="infoContainer">
+                  <h2
+                    className="unameContainer"
+                    id="username"
+                    placeholder="Username"
+                  >
+                    {myContext.profileData.username}
+                  </h2>
+                  <div className="followData">
+                    <div>
+                      <span>
+                        <strong>{myContext.profileData.posts.length}</strong>
+                      </span>
+                      Posts
+                    </div>
+                    <div>
+                      <span>
+                        <strong>
+                          {myContext.profileData.followers.length}
+                        </strong>
+                      </span>
+                      Followers
+                    </div>
+                    <div>
+                      <span>
+                        <strong>
+                          {myContext.profileData.followings.length}
+                        </strong>
+                      </span>
+                      Followings
+                    </div>
+                  </div>
+                  <div className="bioContainer">
+                    <strong>Bio</strong>
+                    <div
+                      className="dataContainer"
+                      contentEditable={
+                        myContext.profileData.current ? "true" : "false"
+                      }
+                      id="bio"
+                      ref={bioRef}
+                      suppressContentEditableWarning={true}
+                      placeholder="Some information..."
+                    >
+                      {
+                        new DOMParser().parseFromString(
+                          myContext.profileData.bio,
+                          "text/html"
+                        ).body.innerHTML
+                      }
+                    </div>
+                  </div>
+                  <div className="follow-save-container">
+                    <button
+                      className="followBtn"
+                      onClick={e => {
+                        e.preventDefault();
+                        followFunction();
+                      }}
+                    >
+                      {followText}
+                    </button>
+                    <button
+                      className="saveBtn"
+                      onClick={e =>
+                        myContext.dataMethods.updateProfile(
+                          props.match.params.username
+                        )
+                      }
+                    >
+                      Save
                     </button>
                   </div>
-                </div>
-              </div>
-              <div className="infoContainer">
-                <h2
-                  className="unameContainer"
-                  id="username"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
-                  placeholder="Username"
-                  ref={usernameRef}
-                >
-                  {new DOMParser().parseFromString(
-                    myContext.profileData.username,
-                    "text/html"
-                  ).innerHTML || "Hello World"}
-                </h2>
-                <div className="followData">
-                  <div>
-                    <span>
-                      <strong>23k</strong>
-                    </span>
-                    Posts
-                  </div>
-                  <div>
-                    <span>
-                      <strong>3.4k</strong>
-                    </span>
-                    Followers
-                  </div>
-                  <div>
-                    <span>
-                      <strong>230</strong>
-                    </span>
-                    Followings
-                  </div>
-                </div>
-                <div className="bioContainer">
-                  <strong>Bio</strong>
-                  <div
-                    className="dataContainer"
-                    contentEditable="true"
-                    id="bio"
-                    ref={bioRef}
-                    suppressContentEditableWarning={true}
-                    placeholder="Some information..."
-                  >
-                    {new DOMParser().parseFromString(
-                      myContext.profileData.bio,
-                      "text/html"
-                    ).innerHTML || "No Data"}
+                  <div className="logout-container">
+                    <button onClick={myContext.dataMethods.logout}>
+                      Log out
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <Right />
-      </Subcontainer>
-      <MobileNav />
-    </Container>
+          <Right />
+        </Subcontainer>
+      </Container>
+    </>
   );
 };
 

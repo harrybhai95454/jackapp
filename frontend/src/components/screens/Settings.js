@@ -37,6 +37,10 @@ const Titlebar = styled.div`
   position: sticky;
   top: 0;
   z-index: 4;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const Setting = styled.form`
@@ -111,6 +115,7 @@ const Settings = () => {
 
   return (
     <>
+      <MobileNav />
       <Container className="container">
         <Nav />
         <Subcontainer>
@@ -157,7 +162,6 @@ const Settings = () => {
           </Main>
           <Right />
         </Subcontainer>
-        <MobileNav />
       </Container>
       <DeleteConfirm show={deleteAccount} exit={setDeleteAcc} />
       <Password show={changePassword} exit={setPasswordDialog} />

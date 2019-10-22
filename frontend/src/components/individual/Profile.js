@@ -1,6 +1,7 @@
 import React from "react";
-import profileImg from "../../assets/tweet.jpg";
+import profileImg from "../../assets/tweet.png";
 import styled from "styled-components";
+import { MainContext } from '../../Context';
 
 const Container = styled.div`
   width: ${props => props.w || '26px'};
@@ -8,9 +9,16 @@ const Container = styled.div`
 `;
 
 const Profile = (props) => {
+
+  const myContext = React.useContext(MainContext);
+
+  React.useEffect(e => {
+    console.log(props.pic);
+  })
+
   return (
     <Container w={props.w} h={props.h} className={props.newClass + " profilePic"} >
-      <img src={profileImg} alt="my-pic" />
+      <img src={props.pic === "" ? profileImg : myContext.url + "assets/" + props.pic} alt="my-pic" />
     </Container>
   );
 };

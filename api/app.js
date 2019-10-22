@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 
 // Middleware
 
@@ -10,6 +11,8 @@ const userValidator = require("./app/middleware/Validator");
 
 const auth = require("./app/middleware/Auth");
 
+app.use('/assets', express.static(path.join(__dirname, '/app/assets')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
@@ -18,13 +21,15 @@ app.use(cors());
 
 const usersRoute = require("./app/routes/users.routes");
 const postsRoute = require("./app/routes/posts.routes");
+const profileRoute = require("./app/routes/profile.routes");
 
 app.get("/", (req, res) => {
   res.json("Hello World");
 });
 
 app.use("/users", userValidator("createUser"), usersRoute);
-app.use("/posts", auth ,postsRoute);
+app.use("/posts", auth, postsRoute);
+app.use("/profile", auth, profileRoute);
 
 // Database
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "./Modal";
 import styled from "styled-components";
+import { MainContext } from '../../Context';
 
 const Container = styled.div`
   display: ${props => (props.show ? "flex" : "none")};
@@ -30,21 +31,28 @@ const Container = styled.div`
 `;
 
 const Password = props => {
+
+  const myContext = React.useContext(MainContext);
+
   return (
-    <Modal title="Enter New Password..." show={props.show} exit={props.exit}>
+    <Modal title="Enter New Password..." show={props.show} exit={props.exit} ok={myContext.dataMethods.resetPass}>
       <Container show={props.show}>
         <div className="passwordContainer">
           <input
             type="password"
-            name="resetPassword"
-            id="resetPassword"
+            name="mainPassword"
+            id="mainPassword"
             placeholder="New Password *"
+            onChange={myContext.methods.settingsData}
+            value={myContext.settingsData.changePassword.main}
           />
           <input
             type="password"
             name="confirmPassword"
             id="confirmPassword"
             placeholder="Confirm New Password *"
+            onChange={myContext.methods.settingsData}
+            value={myContext.settingsData.changePassword.confirmation}
           />
         </div>
       </Container>

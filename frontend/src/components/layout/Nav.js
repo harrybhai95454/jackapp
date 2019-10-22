@@ -70,8 +70,8 @@ const Left = () => {
     },
     {
       data: (
-        <Link to="/profile">
-          <Profile />
+        <Link to={ "/profile/" + myContext.fetched.currentUser.username }>
+          <Profile pic={myContext.fetched.currentUser.picture} />
           <div className="secondary">Profile</div>
         </Link>
       )
@@ -101,7 +101,7 @@ const Left = () => {
       }
       </ul>
       <BtnDiv className="btn-wrapper">
-        <a href="./#newTweet" className="btn btn-primary">
+        <a href="/#newTweet" className="btn btn-primary">
           <span className="primary">P</span>
           <span className="secondary">Post</span>
         </a>

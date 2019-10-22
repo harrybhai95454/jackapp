@@ -76,6 +76,8 @@ export const SmallBtn = styled.button`
 
   &:hover {
     color: ${props => props.colorHv || "#2393f5"};
+  }
+  &:active {
     background: ${props => props.colorHv + "2a" || "#2393f52a"};
   }
 `;

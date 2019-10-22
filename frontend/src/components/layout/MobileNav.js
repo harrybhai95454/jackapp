@@ -5,18 +5,63 @@ import { FiHome, FiSettings } from "react-icons/fi";
 import Profile from "../individual/Profile";
 import { Navbutton } from "../styles/app";
 import { MainContext } from "../../Context";
+import { FiSearch } from "react-icons/fi";
 
 const Container = styled.div`
   width: 100%;
-  position: fixed;
-  z-index: 4;
-  display: none;
-  justify-content: center;
-  bottom: 0;
-  left: 0;
   background: ${props => props.bg || "white"};
-  border-top: 1px solid #ebebeb;
-  color: ${props => props.color || "#5b5b5b"};
+  color: ${props => props.color || "black"};
+  padding: 6px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ebebeb;
+  position: sticky;
+  display: none;
+  flex-direction: column;
+  top: 0;
+  z-index: 4;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      margin: 0 8px;
+      margin-left: 4px;
+      margin-top: 2px; 
+      color: #8a8a8a;
+      display: none;
+    }
+
+    #search-mobile {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 8px 5px;
+      font-size: 1.2rem;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      label {
+        display: initial;
+      }
+
+      .primary {
+        display: none;
+      }
+
+      #search-mobile {
+        display: block;
+      }
+    }
+
+  }
 
   ul {
     display: flex;
@@ -57,8 +102,8 @@ const MobileNav = () => {
     },
     {
       data: (
-        <Link to="/profile">
-          <Profile />
+        <Link to={ "/profile/" + myContext.fetched.currentUser.username }>
+          <Profile pic={myContext.fetched.currentUser.picture} />
         </Link>
       )
     }
@@ -66,6 +111,19 @@ const MobileNav = () => {
 
   return (
     <Container>
+      <div>
+        <label htmlFor="searchMobile">
+          <FiSearch />
+        </label>
+        <input
+          type="text"
+          name="search"
+          id="search-mobile"
+          placeholder="Search Jack"
+          value={myContext.search}
+          onChange={myContext.dataMethods.searchedUsers}
+        ></input>
+      </div>
       <ul className="navbar">
         {jsxData.map((e, i) => {
           if (i === myContext.nav) {

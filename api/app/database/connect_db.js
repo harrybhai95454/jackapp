@@ -6,7 +6,8 @@ const connectDB = () => {
     .connect(config.url, {
       useFindAndModify: false,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useCreateIndex: true
     })
     .then(() => console.log("Connected to Db"))
     .catch(e => console.log(`Error: ${e}`));

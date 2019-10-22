@@ -4,7 +4,11 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     max: 100,
-    required: true
+    required: true,
+    unique: true
+  },
+  profilePic: {
+    type: String
   },
   password: {
     type: String,
@@ -12,18 +16,31 @@ const UserSchema = new mongoose.Schema({
     max: 250,
     required: true
   },
-  followers: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+  bio: {
+    type: String
   },
-  posts: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Post"
-  },
-  likedPosts: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Post"
-  }
+  followers: [
+    {
+      type: String,
+    }
+  ],
+  followings: [
+    {
+      type: String,
+    }
+  ],
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post"
+    }
+  ],
+  likedPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post"
+    }
+  ]
 });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -34,6 +34,10 @@ button:focus {
   color: #2393f5;
   font-size: 2rem;
   font-family: "Fascinate Inline", cursive;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
 }
 
 a {

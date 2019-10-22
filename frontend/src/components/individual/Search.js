@@ -46,7 +46,7 @@ const Search = (props) => {
       <Container action="/">
          <div className="searchContainer">
             <label htmlFor="search"><FiSearch /></label>
-            <input type="text" name="search" placeholder="Search Jack" id="search" value={myContext.search} onChange={myContext.methods.setSearch} />
+            <input type="text" name="search" placeholder="Search Jack" id="search" value={myContext.search} onChange={myContext.dataMethods.searchedUsers} />
          </div>
       </Container>
    )

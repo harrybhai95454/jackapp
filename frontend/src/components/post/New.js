@@ -57,7 +57,7 @@ const New = () => {
     changingState();
   }, []);
 
-  const changingState = e => {
+  const changingState = () => {
     tweetStateRef.current.addEventListener("input", e => {
       myContext.methods.currentTweet(e);
     });
@@ -66,7 +66,7 @@ const New = () => {
   return (
     <Container>
       <div className="addNewTweet">
-        <Profile w="45px" h="45px" newClass="profile1" />
+        <Profile w="45px" h="45px" newClass="profile1" pic={myContext.fetched.currentUser.picture} />
         <div
           role="textbox"
           className="textarea"
@@ -77,14 +77,10 @@ const New = () => {
           ref={tweetStateRef}
           suppressContentEditableWarning={true}
         >
-          {new DOMParser().parseFromString(
-            myContext.tweetData.currentTweet,
-            "text/html"
-          ).innerHTML || ""}
         </div>
       </div>
       <div className="bottom">
-        <Button>Post</Button>
+        <Button onClick={e => myContext.dataMethods.addTweet()}>Post</Button>
       </div>
     </Container>
   );

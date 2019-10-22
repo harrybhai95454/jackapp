@@ -3,14 +3,25 @@ const {
   createPost,
   getAllPosts,
   deletePost,
-  getOnePost
+  getOnePost,
+  addToLikedPost,
+  removeFromLikedPost,
+  postsforTimeline
 } = require("../controller/Posts");
 
 routes.get("/", getAllPosts);
 
 routes.get("/:id", getOnePost);
 
-routes.post("/create", createPost);
+routes.get("/timeline/all", postsforTimeline);
+
+routes.post("/like/", addToLikedPost);
+
+routes.post("/unlike/", removeFromLikedPost);
+
+routes.post("/", createPost);
+
+// This won't delete the posts
 
 routes.delete("/:id", deletePost);
 
