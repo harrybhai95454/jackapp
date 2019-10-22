@@ -24,7 +24,7 @@ const postsRoute = require("./app/routes/posts.routes");
 const profileRoute = require("./app/routes/profile.routes");
 
 app.get("/", (req, res) => {
-  res.json("Hello World");
+  res.json("Welcome go to frontend and npm start it.");
 });
 
 app.use("/users", userValidator("createUser"), usersRoute);

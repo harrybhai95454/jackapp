@@ -314,7 +314,6 @@ class MainProvider extends Component {
       });
       if (jdata.ok) {
         const data = await jdata.json();
-        console.log(data);
         this.setState(state => ({
           ...state,
           profileData: {
