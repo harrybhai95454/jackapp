@@ -1,5 +1,7 @@
 # A Simple Twitter Clone Based On ExpressJS and ReactJS
 
+![screenshot](https://raw.githubusercontent.com/kasanyahariom97/jackapp/master/jack.png)
+
 ## How to get started
 
 ### Clone this is project using git or svn
@@ -44,6 +46,7 @@ Now navigate to [localhost:3000](http://localhost:3000) to view the app
 - [x] Search accounts
 - [x] Follow/Unfollow accounts
 - [ ] Dark Mode
+- [ ] Suggestions for followings
 
 That's all to get started
 
