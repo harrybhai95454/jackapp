@@ -4,7 +4,7 @@
 
 ## How to get started
 
-### Clone this is project using git or svn
+### Clone this project using git or svn
 
 1. Make sure the following are installed on your machine
 
