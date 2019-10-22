@@ -70,7 +70,7 @@ const Left = () => {
     },
     {
       data: (
-        <Link to={ "/profile/" + myContext.fetched.currentUser.username }>
+        <Link to={ "/profiles/" + myContext.fetched.currentUser.username }>
           <Profile pic={myContext.fetched.currentUser.picture} />
           <div className="secondary">Profile</div>
         </Link>

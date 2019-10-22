@@ -102,7 +102,7 @@ const MobileNav = () => {
     },
     {
       data: (
-        <Link to={ "/profile/" + myContext.fetched.currentUser.username }>
+        <Link to={ "/profiles/" + myContext.fetched.currentUser.username }>
           <Profile pic={myContext.fetched.currentUser.picture} />
         </Link>
       )

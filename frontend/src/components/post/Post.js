@@ -47,7 +47,7 @@ const Post = props => {
         <ProfilePart>
           <div className="part-one">
             <div className="tweet-username">
-              <Link to={"/profile/" + props.username || '1'}>{props.username || "No name"}</Link> - {props.date || "10 Oct"}
+              <Link to={"/profiles/" + props.username || '1'}>{props.username || "No name"}</Link> - {props.date || "10 Oct"}
             </div>
           </div>
         </ProfilePart>

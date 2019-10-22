@@ -11,6 +11,7 @@ const Container = styled.div`
 const Profile = (props) => {
 
   const myContext = React.useContext(MainContext);
+  const profilePic = props.pic === "" || props.pic === undefined ? profileImg : myContext.url + "assets/" + props.pic;
 
   React.useEffect(e => {
     console.log(props.pic);
@@ -18,7 +19,7 @@ const Profile = (props) => {
 
   return (
     <Container w={props.w} h={props.h} className={props.newClass + " profilePic"} >
-      <img src={props.pic === "" ? profileImg : myContext.url + "assets/" + props.pic} alt="my-pic" />
+      <img src={profilePic} alt="my-pic" />
     </Container>
   );
 };
